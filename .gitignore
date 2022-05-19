@@ -1,0 +1,6 @@
+# Direcotyr to ignore
+/node_modules
+client/node_modules
+# files to ignore
+.env
+.env_local
