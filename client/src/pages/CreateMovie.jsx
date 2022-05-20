@@ -2,41 +2,67 @@ import {
   Box,
   Button,
   FormControl,
-  FormHelperText,
   FormLabel,
-  HStack,
   Input,
   InputGroup,
   InputLeftAddon,
-  InputRightAddon,
   Select,
   Slider,
   SliderFilledTrack,
-  SliderMark,
   SliderThumb,
   SliderTrack,
-  Stack,
-  Switch,
   Tag,
   TagLabel,
-  TagRightIcon,
   Text,
   Textarea,
   Grid,
   GridItem,
   Image,
   Divider,
-  Heading,
   Flex,
   Wrap,
+  Center,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { MdClear } from "react-icons/md";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import Frequently from "../components/Frequently";
+import { UserState } from "../Context/Store";
+import { useNavigate } from "react-router-dom";
 
 const CreateMovie = () => {
+  const Navigate = useNavigate();
+  const toast = useToast();
+  const { user } = UserState();
+  // Movie type enum
+  const genreEnum = [
+    "Action",
+    "Comedy",
+    "Drama",
+    "Fantasy",
+    "Horror",
+    "Mystery",
+    "Romance",
+    "Thriller",
+  ];
+
+  // Data fields of new Movie
+  const [pageLoading, setPageLoading] = useState(true);
+  const [postingData, setPostingData] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [movieName, setMovieName] = useState("");
+  const [description, setDescription] = useState("");
+  const [directorName, setDirectorName] = useState("");
+  const [castMember, setCastMember] = useState("");
+  const [runtime, setRuntime] = useState(90);
+  const [cast, setCast] = useState([]);
+  const [movieGenre, setMovieGenre] = useState(genreEnum[0]);
+  const [trailer, setTrailer] = useState("");
+
   // Enable Image Drop feature
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
@@ -48,89 +74,157 @@ const CreateMovie = () => {
       );
     },
   });
-  const genreEnum = [
-    "Action",
-    "Comedy",
-    "Drama",
-    "Fantasy",
-    "Horror",
-    "Mystery",
-    "Romance",
-    "Thriller",
-  ];
-  // Data fields of new Movie
-  const movieData = {
-    adult: false,
-    name: "",
-    summary: "",
-    tags: [],
-    trailer: "",
-    releaseDate: Date.now(),
-    runtime: "",
-    cast: [],
-    director: "",
-  };
-  const [uploading, setUploading] = useState(false);
-  const [movieDetails, setMovieDetails] = useState(movieData);
-  const [selectedImage, setSelectedImage] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [movieName, setMovieName] = useState("");
-  const [description, setDescription] = useState("");
-  const [castMember, setCastMember] = useState("");
-  const [runtime, setRuntime] = useState(90);
-  const [cast, setCast] = useState([]);
-  const [movieGenre, setMovieGenre] = useState(genreEnum[0]);
-  const [trailer, setTrailer] = useState("");
-  const [tag, setTags] = useState([]);
 
+  // POST image to cloudinary to get image url
   const uploadImage = async () => {
     setUploading(true);
     const formData = new FormData();
     formData.append("file", selectedImage);
     formData.append("upload_preset", "cineplexcloneuploader");
-    const Data = await axios
+    const { data } = await axios
       .post("https://api.cloudinary.com/v1_1/dfcaehp0b/image/upload", formData)
-      .then((res) => res.json)
+      .then((res) => res)
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
         setUploading(false);
+        return toast({
+          title: `Poster was successfully Uploaded`,
+          status: "success",
+          isClosable: true,
+          duration: 3000,
+          position: "top-right",
+        });
       });
+    setImageUrl(data?.secure_url);
   };
 
-  // update state of movie details
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setMovieDetails({ ...movieDetails, [name]: value });
-  };
   // Add cast member to the list
   const handleAddCast = () => {
     setCast([...cast, castMember]);
     setCastMember("");
   };
+
   // remove cast member from the list
   const handleRemove = (castToRemove) => {
     setCast(cast.filter((person) => person !== castToRemove));
   };
 
+  // POST new Movie Data to server
+  const createNewMovie = async () => {
+    // Validate Inputs
+    if (
+      !imageUrl ||
+      !movieName ||
+      !description ||
+      !directorName ||
+      !runtime ||
+      !cast ||
+      !movieGenre ||
+      !trailer
+    ) {
+      return toast({
+        title: `Please fill in all the required fields`,
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+        position: "top-right",
+      });
+    }
+    setPostingData(true);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    const movieObject = {
+      name: movieName,
+      image: imageUrl,
+      desc: description,
+      director: directorName,
+      runtime: runtime,
+      cast: cast,
+      genre: movieGenre,
+      trailer: trailer,
+    };
+    try {
+      const { data } = await axios.post(
+        "/api/movie/addmovie",
+        movieObject,
+        config
+      );
+      toast({
+        title: `${movieName} was create successfully`,
+        status: "success",
+        isClosable: true,
+        duration: 3000,
+        position: "top-right",
+      });
+      Navigate("/dashboard");
+    } catch (error) {
+      return toast({
+        title: `${error}`,
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+        position: "top-right",
+      });
+    }
+  };
+
   useEffect(() => {
-    console.log(selectedImage);
-  }, [selectedImage]);
+    setPageLoading(false);
+  }, [user, Navigate]);
+  if (pageLoading) return null;
 
   return (
     <Box bg="#fff" padding="50px 0" h="100%">
       <Divider m="20px 0" />
-      <Grid gap="10" padding="0 5vw" h="100%" templateColumns="400px 1.5fr 1fr">
-        <GridItem maxH="70%">
-          <Image
-            borderRadius="10px"
-            src={selectedImage.preview}
-            alt={selectedImage.name}
-            fallbackSrc="https://via.placeholder.com/150"
-            objectFit="cover"
-            boxSize="100%"
-          />
+      <Grid
+        mt="100px"
+        gap="10"
+        padding="0 5vw"
+        h="100%"
+        templateColumns={{ base: "1fr", lg: "400px 1.5fr 1fr" }}
+      >
+        <GridItem maxH={{ base: "100%", lg: "70%" }} position="relative">
+          {selectedImage ? (
+            <Image
+              borderRadius="10px"
+              src={selectedImage.preview}
+              alt={selectedImage.name}
+              fallbackSrc="https://via.placeholder.com/150"
+              objectFit="cover"
+              boxSize="100%"
+              zIndex="1"
+            />
+          ) : (
+            <Center
+              borderRadius="10px"
+              height={{ base: "200px", md: "100%" }}
+              border="2px solid #edf2f7"
+            >
+              <Text>Please Upload Movie Poster</Text>
+            </Center>
+          )}
+          {uploading && (
+            <Center
+              position="absolute"
+              top="50%"
+              left="50%"
+              transform="translate(-50%, -50%)"
+              h="100%"
+              w="100%"
+              z-index="5"
+              backdropFilter="blur(10px)"
+            >
+              <Text fontSize="xl" color="white">
+                Uploading...
+              </Text>
+            </Center>
+          )}
         </GridItem>
         <GridItem>
           <FormControl isRequired>
@@ -138,7 +232,6 @@ const CreateMovie = () => {
             <Input
               type="email"
               name="movieName"
-              color="white"
               value={movieName}
               onChange={(e) => setMovieName(e.target.value)}
             />
@@ -148,7 +241,6 @@ const CreateMovie = () => {
             <Textarea
               type="text"
               name="description"
-              color="white"
               value={description}
               placeholder="please provide a short summary of the movie"
               onChange={(e) => setDescription(e.target.value)}
@@ -157,7 +249,6 @@ const CreateMovie = () => {
           <InputGroup size="md" mt="20px">
             <InputLeftAddon children="Trailer Link" />
             <Input
-              color="white"
               placeholder="https://youtube-link.com"
               onChange={(e) => setTrailer(e.target.value)}
             />
@@ -187,7 +278,6 @@ const CreateMovie = () => {
                 value={runtime}
                 onChange={(e) => {
                   setRuntime(e.target.value);
-                  console.log(runtime);
                 }}
                 disabled
               />
@@ -213,9 +303,8 @@ const CreateMovie = () => {
             <Input
               type="text"
               name="director"
-              color="white"
-              value={movieDetails.director}
-              onChange={(e) => handleChange(e)}
+              value={directorName}
+              onChange={(e) => setDirectorName(e.target.value)}
             />
           </FormControl>
           <FormControl mt="20px" isRequired>
@@ -224,7 +313,6 @@ const CreateMovie = () => {
               <Input
                 type="text"
                 name="cast"
-                color="white"
                 value={castMember}
                 onChange={(e) => {
                   setCastMember(e.target.value);
@@ -256,7 +344,7 @@ const CreateMovie = () => {
             </Wrap>
           </FormControl>
           <Box mt="20px" w="100%" d="flex" justifyContent="flex-end">
-            <Button p="0 40px" colorScheme="telegram">
+            <Button p="0 40px" colorScheme="telegram" onClick={createNewMovie}>
               Create Movie
             </Button>
           </Box>
@@ -273,7 +361,11 @@ const CreateMovie = () => {
             border="5px dashed #edf2f7"
           >
             <Input {...getInputProps()} />
-            <p>Drop Image here</p>
+            {selectedImage ? (
+              <p>Drop Image to replace</p>
+            ) : (
+              <p>Drop Image here</p>
+            )}
           </Box>
           <Button
             onClick={uploadImage}
@@ -292,16 +384,3 @@ const CreateMovie = () => {
 };
 
 export default CreateMovie;
-
-// Legacy
-{
-  /* <FormControl>
-          <FormLabel htmlFor="email">Upload Movie Poster</FormLabel>
-          <Input
-            id="email"
-            type="file"
-            onChange={(event) => setSelectedImage(event.target.files[0])}
-          />
-          <Button onClick={uploadImage}>Upload</Button>
-        </FormControl> */
-}

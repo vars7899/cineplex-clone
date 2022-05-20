@@ -14,7 +14,7 @@ import CreateMovie from "./pages/CreateMovie";
 function App() {
   return (
     <div className="app">
-      {/* <NavBar /> */}
+      <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/tickets" element={<TicketsPage />} />

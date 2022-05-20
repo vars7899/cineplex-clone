@@ -5,7 +5,7 @@ const MovieSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please fill in the movie name"],
   },
-  length: {
+  runtime: {
     type: String,
     required: [true, "Please fill int the movie length"],
   },
@@ -21,10 +21,19 @@ const MovieSchema = new mongoose.Schema({
     type: String,
     required: [true, "Movie Image is a required Field"],
   },
-  // showTime: {
-  //   type: String,
-  //   required: [true, "Please fill int the movie show time"],
-  // },
+  director: {
+    type: String,
+    required: [true, "Movie Image is a required Field"],
+  },
+  desc: {
+    type: String,
+    required: [true, "Movie Image is a required Field"],
+  },
+  cast: [
+    {
+      type: String,
+    },
+  ],
 });
 
 const Movie = mongoose.model("Movie", MovieSchema);

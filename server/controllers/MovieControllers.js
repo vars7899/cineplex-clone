@@ -6,14 +6,18 @@ const { serverError } = require("../error/serverError");
 // @route		/api/movie/addmovie
 // @access		Admin
 const addMovie = asyncHandler(async (req, res) => {
-  const { name, length, genre, trailer, image } = req.body;
+  const { name, runtime, genre, trailer, image, cast, director, desc } =
+    req.body;
   try {
     const newMovie = await Movie.create({
       name,
-      length,
+      runtime,
       genre,
       trailer,
       image,
+      cast,
+      director,
+      desc,
     });
     res.status(200).json({
       _id: newMovie._id,
@@ -23,6 +27,7 @@ const addMovie = asyncHandler(async (req, res) => {
       trailer: newMovie.trailer,
       image: newMovie.image,
     });
+    console.log(req.body, req.headers);
   } catch (err) {
     res.status(500);
     throw new Error(serverError("At add movie controller", err));
