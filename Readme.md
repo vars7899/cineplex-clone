@@ -27,6 +27,10 @@ Create a Full-stack using the following technology
 - ADD / REMOVE / UPDATE Theatres
 - many more
 
+## Admin Panel
+
+## ![Admin](https://res.cloudinary.com/dfcaehp0b/image/upload/v1653434360/localhost_3000_dashboard_is7bud.png)
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
