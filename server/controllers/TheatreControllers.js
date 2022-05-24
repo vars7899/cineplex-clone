@@ -111,11 +111,13 @@ const deleteTheatre = asyncHandler(async (req, res) => {
 });
 
 // @desc			update the information of the theatre
-// @route			/api:theatreId
+// @route			/api/theatre:theatreId
 // @access		admin
 const updateTheatreInformation = asyncHandler(async (req, res) => {
   const { theatreId } = req.params;
-  const { name, address, city, postalCode, country, lat, long } = req.body;
+  const { name, address, city, postalCode, country, lat, long, timing } =
+    req.body;
+  console.log(req.body);
 
   try {
     const theatreExist = await Theatre.findOne({ _id: theatreId });
@@ -133,6 +135,7 @@ const updateTheatreInformation = asyncHandler(async (req, res) => {
         country: country ? country : theatreExist.country,
         lat: lat ? lat : theatreExist.lat,
         long: long ? long : theatreExist.long,
+        timing: timing ? timing : theatreExist.timing,
       },
       {
         new: true,

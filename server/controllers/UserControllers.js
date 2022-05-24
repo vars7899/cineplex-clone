@@ -1,8 +1,11 @@
 const asyncHandler = require("express-async-handler");
 const { serverError } = require("../error/serverError");
 const validEmail = require("../utils/validateEmail");
-const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
+const User = require("../models/User");
+const Ticket = require("../models/Ticket");
+const Theatre = require("../models/Theatre");
+const Movie = require("../models/Movie");
 
 // @desc		Register a new user after verifying email
 // @route		/api/user
@@ -84,7 +87,87 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error(serverError("Login User"));
   }
 });
-module.exports = { registerUser, loginUser };
+
+// @desc			Get All the User
+// @route			/api/user
+// @access		Admin
+const getAllUser = asyncHandler(async (req, res) => {
+  try {
+    const users = await User.find({ _id: { $ne: req.user.id } }).select(
+      "-password"
+    );
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500);
+    throw new Error(serverError("Get All User"));
+  }
+});
+
+// @desc			Change user status to admin
+// @route			/api/user/status/:userId
+// @access		Admin
+const becomeAdmin = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const userExisted = await User.findById({ _id: userId }).select(
+      "-password"
+    );
+    if (!userExisted) {
+      res
+        .status(404)
+        .json(
+          "Server was able to process the request but there were no user found by the given ID"
+        );
+    }
+    if (userExisted && userExisted.isAdmin === true) {
+      const updatedUser = await User.findByIdAndUpdate(
+        { _id: userId },
+        { isAdmin: false },
+        { new: true }
+      ).select("-password");
+      res.status(200).json(updatedUser);
+    }
+    if (userExisted && userExisted.isAdmin === false) {
+      const updatedUser = await User.findByIdAndUpdate(
+        { _id: userId },
+        { isAdmin: true },
+        { new: true }
+      ).select("-password");
+      res.status(200).json(updatedUser);
+    }
+  } catch (error) {
+    res.status(500);
+    throw new Error(serverError("Become Admin"));
+  }
+});
+
+const getStatics = asyncHandler(async (req, res) => {
+  try {
+    const [user, theatre, movie, ticket] = await Promise.all([
+      User.count(),
+      Theatre.count(),
+      Movie.count(),
+      Ticket.count(),
+    ]);
+    res.status(200).json({
+      user: user,
+      theatre: theatre,
+      ticket: ticket,
+      movie: movie,
+    });
+  } catch (error) {
+    res.status(500);
+    throw new Error(serverError("Get Statics from DB"));
+  }
+});
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getAllUser,
+  becomeAdmin,
+  getStatics,
+};
 
 // @desc      forgot password functionality
 // @route			/api/user/reset-password
