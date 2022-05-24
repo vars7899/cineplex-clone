@@ -54,7 +54,7 @@ import {
 } from "react-leaflet";
 import axios from "axios";
 
-const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
+const CreateTheatre = ({ children, theatreList, setTheatreList }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const Navigate = useNavigate();
   const toast = useToast();
@@ -63,17 +63,16 @@ const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
 
   // Data fields of Theatre
   const [pageLoading, setPageLoading] = useState(true);
-  const [updating, setUpdating] = useState(false);
-  const [theatreName, setTheatreName] = useState(theatre?.name);
-  const [address, setAddress] = useState(theatre?.address);
-  const [city, setCity] = useState(theatre?.city);
-  const [postalCode, setPostal] = useState(theatre?.postalCode);
-  const [country, setCountry] = useState(theatre?.country);
-  //   const [openTime, setOpenTime] = useState(theatre?.timing[0]);
-  //   const [closeTime, setCloseTime] = useState(theatre?.timing[1]);
-  const [lat, setLat] = useState(theatre?.lat);
-  const [long, setLong] = useState(theatre?.long);
-  const [eraseName, setEraseName] = useState("");
+  const [postingData, setPostingData] = useState(false);
+  const [theatreName, setTheatreName] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostal] = useState("");
+  const [country, setCountry] = useState("");
+  const [openTime, setOpenTime] = useState("");
+  const [closeTime, setCloseTime] = useState("");
+  const [lat, setLat] = useState("");
+  const [long, setLong] = useState("");
 
   function NewCoordinates() {
     const map = useMapEvents({
@@ -91,63 +90,52 @@ const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
     );
   }
 
-  // handle Delete Theatre
-  const handleDelete = async () => {
-    if (eraseName !== theatre?.name) return;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-    try {
-      const { data } = await axios.delete(
-        `/api/theatre/delete/${theatre?._id}`,
-        config
-      );
-      onClose();
-      setTheatreList(theatreList.filter((item) => item?._id !== theatre?._id));
-      setEraseName("");
-    } catch (error) {
-      toast({
-        title: `Something went wrong ${error}`,
+  // handle post Request
+  const handlePost = async () => {
+    // Validate Inputs
+    if (
+      !theatreName ||
+      !address ||
+      !city ||
+      !postalCode ||
+      !country ||
+      !openTime ||
+      !closeTime ||
+      !lat ||
+      !long
+    ) {
+      return toast({
+        title: `Please fill in all the required fields`,
         status: "error",
         isClosable: true,
         duration: 3000,
         position: "top-right",
       });
     }
-  };
-
-  // handle update Request
-  const handleUpdate = async () => {
     const config = {
       headers: {
         Authorization: `Bearer ${user.token}`,
       },
     };
     try {
-      setUpdating(true);
+      setPostingData(true);
       const theatreObject = {
         name: theatreName,
         address: address,
         city: city,
         postalCode: postalCode,
         country: country,
-        // timing: [openTime, closeTime],
+        timing: [openTime, closeTime],
         lat: lat,
         long: long,
       };
-      console.log(theatreObject);
-      const { data } = await axios.put(
-        `/api/theatre//${theatre?._id}`,
+      const { data } = await axios.post(
+        `/api/theatre/create`,
         theatreObject,
         config
       );
 
-      const restOfTheatre = theatreList.filter(
-        (item) => item._id !== theatre?._id
-      );
-      setTheatreList([...restOfTheatre, data]);
+      setTheatreList([...theatreList, data]);
       setLat("");
       setLong("");
       toast({
@@ -166,7 +154,7 @@ const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
         position: "top-right",
       });
     } finally {
-      setUpdating(false);
+      setPostingData(false);
       onClose();
     }
   };
@@ -188,18 +176,11 @@ const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
 
           <DrawerBody>
             <Stack spacing="24px">
-              <MapContainer center={[theatre?.lat, theatre?.long]} zoom={16}>
+              <MapContainer center={["49.26038", "-123.11336"]} zoom={16}>
                 <TileLayer
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={[theatre?.lat, theatre?.long]}>
-                  <Popup>
-                    <Text fontSize="lg">{theatre?.name}</Text>
-                    <Text fontSize="sm">{theatre?.address}</Text>
-                    <Text fontSize="sm">{theatre?.postalCode}</Text>
-                  </Popup>
-                </Marker>
                 <NewCoordinates />
               </MapContainer>
               <Box>
@@ -249,7 +230,7 @@ const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
                     onChange={(e) => setCountry(e.target.value)}
                   />
                 </FormControl>
-                {/* <FormControl mt="20px" isRequired>
+                <FormControl mt="20px" isRequired>
                   <FormLabel>Timing</FormLabel>
                   <Flex
                     justifyContent="space-between"
@@ -273,69 +254,8 @@ const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
                     <Text>Close</Text>
                     <TimePicker onChange={setCloseTime} value={closeTime} />
                   </Flex>
-                </FormControl> */}
+                </FormControl>
               </Box>
-              <Accordion allowToggle>
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton>
-                      <Box flex="1" textAlign="left">
-                        Update Coordinates
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4} width="100%">
-                    <Text fontSize="xl" color="red">
-                      Update Map Coordinates
-                    </Text>
-                    <Text>
-                      Double click on Map on the new location Coordinates
-                    </Text>
-                  </AccordionPanel>
-                </AccordionItem>
-
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton>
-                      <Box flex="1" textAlign="left">
-                        Danger Zone
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <VStack spacing="5">
-                      <Text fontSize="xl" color="red">
-                        Remove Theatre Permanently from the DataBase
-                      </Text>
-                      <Text>
-                        You are about to erase all the data related to the
-                        selected Theatre. Files cannot be recovered after
-                        erasing. Please make sure the selected Theatre is the
-                        Theatre you wish to destroy.
-                      </Text>
-                      <Text>
-                        If you wish to continue? Please write Theatre name (
-                        {theatre?.name}) and click remove
-                      </Text>
-                      <Input
-                        value={eraseName}
-                        onChange={(e) => setEraseName(e.target.value)}
-                      />
-                      <Button
-                        mt="20px"
-                        colorScheme="red"
-                        isFullWidth
-                        onClick={handleDelete}
-                        isDisabled={eraseName !== theatre?.name}
-                      >
-                        Remove
-                      </Button>
-                    </VStack>
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
             </Stack>
           </DrawerBody>
 
@@ -345,10 +265,10 @@ const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
             </Button>
             <Button
               colorScheme="telegram"
-              isLoading={updating}
-              onClick={handleUpdate}
+              isLoading={postingData}
+              onClick={handlePost}
             >
-              Update
+              Create
             </Button>
           </DrawerFooter>
         </DrawerContent>
@@ -357,4 +277,4 @@ const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
   );
 };
 
-export default TheatreDetails;
+export default CreateTheatre;

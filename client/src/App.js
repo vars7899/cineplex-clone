@@ -10,6 +10,7 @@ import TheatrePage from "./pages/TheatrePage";
 import MoviePage from "./pages/MoviePage";
 import DashBoard from "./pages/DashBoard";
 import CreateMovie from "./pages/CreateMovie";
+import CreateTheatre from "./pages/CreateTheatre";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/movies" element={<MoviePage />} />
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/movie/create" element={<CreateMovie />} />
+        <Route path="/theatre/create" element={<CreateTheatre />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

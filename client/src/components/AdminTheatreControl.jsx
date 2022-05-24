@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import EmptyList from "./EmptyList";
 import { HiDotsVertical } from "react-icons/hi";
 import TheatreDetails from "./TheatreDetails";
+import CreateTheatre from "../pages/CreateTheatre";
 
 const TheatreCard = ({ theatre, theatreList, setTheatreList }) => {
   return (
@@ -46,9 +47,9 @@ const TheatreCard = ({ theatre, theatreList, setTheatreList }) => {
         <Text color="blackAlpha.500">
           {theatre.city} {theatre.country}
         </Text>
-        <Text color="red.800">
-          {/* Timing {theatre?.timing[0]} - {theatre?.timing[1]} */}
-        </Text>
+        {/* <Text color="red.800">
+          Timing {theatre?.timing[0]} - {theatre?.timing[1]}
+        </Text> */}
       </Flex>
     </VStack>
   );
@@ -88,13 +89,18 @@ const AdminTheatreControl = () => {
         <Text fontSize="2xl" fontWeight="bold">
           THEATRES
         </Text>
-        <Button
-          leftIcon={<VscAdd />}
-          onClick={() => Navigate("/theatre/create")}
-          colorScheme="telegram"
+        <CreateTheatre
+          theatreList={theatreList}
+          setTheatreList={setTheatreList}
         >
-          Add Location
-        </Button>
+          <Button
+            leftIcon={<VscAdd />}
+            // onClick={() => Navigate("/theatre/create")}
+            colorScheme="telegram"
+          >
+            Add Location
+          </Button>
+        </CreateTheatre>
       </Flex>
       {loading && (
         <Stack width="100%">
