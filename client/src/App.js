@@ -23,7 +23,7 @@ function App() {
         <Route path="/theaters" element={<TheatrePage />} />
         <Route path="/movies" element={<MoviePage />} />
         <Route path="/dashboard" element={<DashBoard />} />
-        <Route path="/create" element={<CreateMovie />} />
+        <Route path="/movie/create" element={<CreateMovie />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

@@ -11,7 +11,7 @@ import React from "react";
 
 const Frequently = () => {
   return (
-    <div>
+    <Box width="100%">
       <Text textAlign="center" fontSize="2xl" mb="20px">
         Frequently Asked Questions
       </Text>
@@ -82,7 +82,7 @@ const Frequently = () => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-    </div>
+    </Box>
   );
 };
 
