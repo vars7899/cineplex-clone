@@ -1,4 +1,8 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserState } from "../Context/Store";
+import TimePicker from "react-time-picker";
+import axios from "axios";
 import {
   useDisclosure,
   Drawer,
@@ -11,9 +15,6 @@ import {
   Stack,
   FormLabel,
   Input,
-  InputGroup,
-  InputLeftAddon,
-  Select,
   Textarea,
   Accordion,
   AccordionItem,
@@ -22,29 +23,11 @@ import {
   AccordionButton,
   DrawerFooter,
   Button,
-  Img,
   FormControl,
-  Flex,
   useToast,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  Wrap,
-  Tag,
-  TagLabel,
   Text,
   VStack,
-  Popover,
-  RangeSlider,
-  RangeSliderTrack,
-  RangeSliderFilledTrack,
-  RangeSliderThumb,
-  Divider,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import TimePicker from "react-time-picker";
-import { UserState } from "../Context/Store";
 import {
   MapContainer,
   TileLayer,
@@ -52,7 +35,6 @@ import {
   Marker,
   Popup,
 } from "react-leaflet";
-import axios from "axios";
 
 const TheatreDetails = ({ children, theatre, setTheatreList, theatreList }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

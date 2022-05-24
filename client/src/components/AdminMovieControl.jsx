@@ -13,6 +13,8 @@ import {
   Button,
   Divider,
   GridItem,
+  Stack,
+  Skeleton,
 } from "@chakra-ui/react";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdOutlineVideoLibrary } from "react-icons/md";
@@ -98,7 +100,7 @@ const AdminMovieControl = () => {
   const Navigate = useNavigate();
   const toast = useToast();
   const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchMovieData = async () => {
     try {
@@ -122,6 +124,14 @@ const AdminMovieControl = () => {
   useEffect(() => {
     fetchMovieData();
   }, []);
+  if (loading)
+    return (
+      <Stack width="100%">
+        <Skeleton startColor="gray.100" endColor="white" height="100px" />
+        <Skeleton startColor="gray.100" endColor="white" height="100px" />
+        <Skeleton startColor="gray.100" endColor="white" height="100px" />
+      </Stack>
+    );
 
   return (
     <Box>
@@ -130,6 +140,7 @@ const AdminMovieControl = () => {
           <Text fontSize="2xl" fontWeight="bold">
             NOW SHOWING
           </Text>
+
           <Button
             leftIcon={<VscAdd />}
             onClick={() => Navigate("/movie/create")}
@@ -138,7 +149,7 @@ const AdminMovieControl = () => {
             Add Movie
           </Button>
         </Flex>
-        {movies.length === 0 ? (
+        {movies.length === 0 && loading === false ? (
           <EmptyList title="Movie" to={"/movie/create"} />
         ) : (
           <VStack spacing="20px" width="100%">

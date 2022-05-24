@@ -9,6 +9,7 @@ import {
   useToast,
   Grid,
   IconButton,
+  Divider,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -82,6 +83,14 @@ const AdminTheatreControl = () => {
   useEffect(() => {
     getTheatreList();
   }, []);
+  if (loading)
+    return (
+      <Stack width="100%">
+        <Skeleton startColor="gray.100" endColor="white" height="100px" />
+        <Skeleton startColor="gray.100" endColor="white" height="100px" />
+        <Skeleton startColor="gray.100" endColor="white" height="100px" />
+      </Stack>
+    );
 
   return (
     <Box width="100%" padding="10px 20px">
@@ -102,14 +111,7 @@ const AdminTheatreControl = () => {
           </Button>
         </CreateTheatre>
       </Flex>
-      {loading && (
-        <Stack width="100%">
-          <Skeleton startColor="gray.100" endColor="white" height="100px" />
-          <Skeleton startColor="gray.100" endColor="white" height="100px" />
-          <Skeleton startColor="gray.100" endColor="white" height="100px" />
-        </Stack>
-      )}
-      {theatreList.length === 0 ? (
+      {theatreList.length === 0 && loading === false ? (
         <EmptyList title="Theatre" to={"/theatre/create"} />
       ) : (
         <Grid
@@ -126,6 +128,7 @@ const AdminTheatreControl = () => {
           ))}
         </Grid>
       )}
+      <Divider mt="20px" />
     </Box>
   );
 };

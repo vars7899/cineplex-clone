@@ -11,8 +11,8 @@ import React from "react";
 
 const Frequently = () => {
   return (
-    <Box width="100%">
-      <Text textAlign="center" fontSize="2xl" mb="20px">
+    <Box width="90%">
+      <Text textAlign="center" fontSize="xl" mb="20px">
         Frequently Asked Questions
       </Text>
       <Accordion allowToggle>
