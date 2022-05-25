@@ -23,30 +23,34 @@ const TheatreListDetails = ({ theatre }) => {
     <Box width="100%">
       <Flex
         width="100%"
-        padding="20px 20px"
-        alignItems="flex-end"
-        justifyContent="space-between"
-        bg="#fff"
-        borderRadius="20px"
+        padding="20px 30px"
+        alignItems={{ base: "flex-start", md: "flex-end" }}
+        justifyContent={{ base: "flex-start", md: "space-between" }}
+        flexDir={{ base: "column", md: "row" }}
       >
         <Box className="theatre">
-          <Text fontWeight="bold">{theatre.name}</Text>
-          <Text color="blackAlpha.500">{theatre.address}</Text>
-          <Text color="blackAlpha.500">{theatre.postalCode}</Text>
-          <Text color="blackAlpha.500">
+          <Text fontSize="xl" color="#fff">
+            {theatre.name}
+          </Text>
+          <Text color="gray.100">
             {theatre.city} {theatre.country}
           </Text>
-          <Text color="red.800">
+          <Text color="gray.500">{theatre.address}</Text>
+          <Text color="gray.500">{theatre.postalCode}</Text>
+          <Text color="#feca04">
             Timing {theatre?.timing[0]} - {theatre?.timing[1]}
           </Text>
         </Box>
         <Button
+          mt="20px"
           onClick={() => {
             handleClick(theatre._id, theatre.name);
           }}
-          bg="#00171F"
-          color="#fff"
-          colorScheme="red"
+          bg="#feca04"
+          color="#0a0b0d"
+          colorScheme="yellow"
+          alignSelf="center"
+          width={{ base: "100%", md: "auto" }}
         >
           Select
         </Button>

@@ -154,7 +154,11 @@ const CreateTheatre = ({ children, theatreList, setTheatreList }) => {
 
           <DrawerBody>
             <Stack spacing="24px">
-              <MapContainer center={["49.26038", "-123.11336"]} zoom={16}>
+              <MapContainer
+                center={["49.26038", "-123.11336"]}
+                zoom={16}
+                style={{ width: "100vh !important" }}
+              >
                 <TileLayer
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

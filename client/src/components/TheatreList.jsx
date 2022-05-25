@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Grid, VStack, Text, useToast } from "@chakra-ui/react";
+import {
+  Grid,
+  VStack,
+  Text,
+  useToast,
+  Box,
+  StackDivider,
+} from "@chakra-ui/react";
 import {
   MapContainer,
   TileLayer,
@@ -59,12 +66,26 @@ const TheatreList = () => {
   }
 
   return (
-    <>
+    <Box mr="-5vw" ml="-5vw" borderTop="1px solid gray" maxW="100vw">
       {loadingTheatreData && <FetchingLoader />}
-      <Grid templateColumns="3fr 1fr" gap="10px" maxW="1100px" mt="10px">
+      <Grid
+        templateColumns={{ base: "1fr auto", lg: "minmax(400px, 600px) 3fr" }}
+        width="100vw"
+        gap="10px"
+      >
+        <VStack
+          minWidth="350px"
+          height="80vh"
+          overflowY="scroll"
+          divider={<StackDivider borderColor="gray.200" />}
+        >
+          {allTheatre.map((theatre) => (
+            <TheatreListDetails key={theatre._id} theatre={theatre} />
+          ))}
+        </VStack>
         <MapContainer
-          center={[29.969513, 76.878281]}
-          zoom={14}
+          center={[49.23038, -123.00036]}
+          zoom={12}
           scrollWheelZoom={true}
         >
           <TileLayer
@@ -86,13 +107,8 @@ const TheatreList = () => {
           ))}
           <LocationMarker />
         </MapContainer>
-        <VStack minWidth="350px" height="600px" overflowY="scroll">
-          {allTheatre.map((theatre) => (
-            <TheatreListDetails key={theatre._id} theatre={theatre} />
-          ))}
-        </VStack>
       </Grid>
-    </>
+    </Box>
   );
 };
 

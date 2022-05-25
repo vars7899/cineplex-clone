@@ -1,5 +1,4 @@
-import { Flex } from "@chakra-ui/react";
-import React from "react";
+import { Flex, Box } from "@chakra-ui/react";
 import ProcessBread from "../components/ProcessBread";
 import TheatreList from "../components/TheatreList";
 
@@ -10,15 +9,15 @@ const TheatrePage = () => {
       justifyContent="flex-start"
       alignItems="center"
       h="100%"
-      pt="90px"
+      pt={{ base: "140px", xl: "90px" }}
     >
-      <ProcessBread isActive={0} />
+      <Box display={{ base: "none", sm: "block" }}>
+        <ProcessBread isActive={0} />
+      </Box>
       <TheatreList
         style={{
           zIndex: "10",
-          maxHeight: "600px",
           overflow: "hidden",
-          maxHeight: "575px",
         }}
       />
     </Flex>

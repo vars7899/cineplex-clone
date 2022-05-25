@@ -41,6 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
       firstName: newUser.firstName,
       lastName: newUser.lastName,
       email: newUser.email,
+      isAdmin: newUser.isAdmin,
       token: generateToken(newUser._id),
       message: "User Created successfully",
     });
@@ -75,6 +76,7 @@ const loginUser = asyncHandler(async (req, res) => {
         firstName: userExist.firstName,
         lastName: userExist.lastName,
         email: userExist.email,
+        isAdmin: userExist.isAdmin,
         token: generateToken(userExist._id),
         message: "User logged In successfully",
       });

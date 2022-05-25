@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, useDisclosure, VStack, StackDivider } from "@chakra-ui/react";
 import {
   Drawer,
@@ -23,7 +22,7 @@ const SideBar = ({ children }) => {
             d="flex"
             alignItems="center"
             justifyContent="flex-end"
-            style={{ background: "#121420", color: "#fff" }}
+            style={{ background: "#0a0b0d", color: "#fff" }}
             h="55px"
           >
             <Button
@@ -35,7 +34,7 @@ const SideBar = ({ children }) => {
             </Button>
           </DrawerHeader>
           <DrawerBody
-            style={{ background: "#121420", color: "#fff" }}
+            style={{ background: "#0a0b0d", color: "#fff" }}
             pt="40px"
           >
             <VStack

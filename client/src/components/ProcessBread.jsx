@@ -17,21 +17,27 @@ const ProcessBread = ({ isActive }) => {
       alignItems="center"
       padding="15px 0px"
       zIndex="100"
+      overflowX="scroll"
     >
-      <Breadcrumb spacing="30px" separator={<HiChevronRight color="#fff" />}>
+      <Breadcrumb
+        spacing={{ base: "0px", md: "5px", xl: "30px" }}
+        fontSize={{ base: "12px", md: "md" }}
+        separator={<HiChevronRight color="#fff" />}
+        wrap="nowrap"
+      >
         <BreadcrumbItem>
           <BreadcrumbLink
             onClick={() => {
               isActive >= 0 && Navigate("/theaters");
             }}
-            padding="10px 20px"
-            borderRadius="10px"
+            padding={{ base: "5px 5px", md: "10px 20px" }}
+            borderRadius={{ base: "2px", md: "10px" }}
             bg={isActive === 0 ? "rgba(255, 255, 255,0.1)" : ""}
             color={
               isActive === 0 ? "#fff" : isActive > 0 ? "#00A8E8" : "gray.400"
             }
           >
-            SELECT THEATRE
+            THEATRE
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
@@ -46,7 +52,7 @@ const ProcessBread = ({ isActive }) => {
               isActive === 1 ? "#fff" : isActive > 1 ? "#00A8E8" : "gray.400"
             }
           >
-            SELECT MOVIE
+            MOVIE
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
@@ -61,7 +67,7 @@ const ProcessBread = ({ isActive }) => {
               isActive === 2 ? "#fff" : isActive > 2 ? "#00A8E8" : "gray.400"
             }
           >
-            CHOOSE TICKETS
+            TICKETS
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
@@ -76,7 +82,7 @@ const ProcessBread = ({ isActive }) => {
               isActive === 3 ? "#fff" : isActive > 3 ? "#00A8E8" : "gray.400"
             }
           >
-            CHOOSE SEATS
+            SEATS
           </BreadcrumbLink>
         </BreadcrumbItem>
 
