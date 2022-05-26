@@ -1,22 +1,45 @@
-import { Divider, Flex } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Flex, useToast, Box } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import MovieSummary from "../components/MovieSummary";
 import ProcessBread from "../components/ProcessBread";
 import SeatPreview from "../components/SeatPreview";
-import { data } from "../dummy data/Data.js";
+import axios from "axios";
 import PriceFooter from "../components/PriceFooter";
 import { UserState } from "../Context/Store";
 import { useNavigate } from "react-router-dom";
 
 const TicketPage = () => {
+  const toast = useToast();
   const Navigate = useNavigate();
-  const { date, time, theatreName } = UserState();
+  const { date, time, theatreName, movieId } = UserState();
+
+  const [loading, setLoading] = useState(false);
+  const [movie, setMovie] = useState([]);
+
+  async function getMovieById() {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(`/api/movie/${movieId}`);
+      setMovie(data);
+    } catch (error) {
+      toast({
+        title: `Something went wrong ${error}`,
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+        position: "top-right",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     // ! Check if the flow of data is right
     if (!date || !time) {
       Navigate("/movies");
     }
+    getMovieById();
   }, []);
 
   return (
@@ -25,11 +48,13 @@ const TicketPage = () => {
       justifyContent="flex-start"
       alignItems="center"
       h="100%"
-      pt="90px"
+      pt={{ base: "140px", xl: "90px" }}
     >
-      <ProcessBread isActive={3} />
+      <Box display={{ base: "none", sm: "block" }}>
+        <ProcessBread isActive={3} />
+      </Box>
       <MovieSummary
-        movie={data[0]}
+        movie={movie[0]}
         date={date}
         time={time}
         location={theatreName}

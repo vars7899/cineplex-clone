@@ -1,43 +1,36 @@
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  Image,
-  Grid,
-  Text,
-} from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { UserState } from "../Context/Store";
+import { Box, Flex, Grid, Image, Text } from "@chakra-ui/react";
+import { useState } from "react";
 
-const MovieSummary = ({ movie }) => {
-  const { date, location, time } = UserState();
+const MovieSummary = ({ movie, date, location, time }) => {
   const [readMore, setReadMore] = useState(false);
-
+  console.log(movie);
   return (
-    <Flex alignItems="flex-start" justify="center" margin="30px 0px">
-      <Box borderRadius="20px" overflow="hidden" mr="40px">
+    <Grid
+      gridTemplateColumns={{
+        base: "1fr",
+        md: "1fr 1fr",
+        lg: "470px 470px",
+      }}
+      gap="20px"
+      m="0px 5vw"
+      alignItems="start"
+    >
+      <Box borderRadius="20px" overflow="hidden">
         <Image
-          alt={movie.name}
-          objectFit="contain"
-          src={movie.image}
-          width="230px"
+          alt={movie?.name}
+          objectFit="cover"
+          height={{ base: "300px", md: "470px" }}
+          src={movie?.image}
+          width="100%"
         />
       </Box>
-      <Flex
-        alignItems="flex-start"
-        flexDir="column"
-        justifyContent="center"
-        maxW="700px"
-      >
+      <Flex alignItems="flex-start" flexDir="column" justifyContent="center">
         <Text
           color="white"
           textTransform="uppercase"
           fontSize={{ base: "2.5rem" }}
         >
-          {movie.name}
+          {movie?.name}
         </Text>
         <Box>
           <Text color="gray.500">
@@ -58,7 +51,7 @@ const MovieSummary = ({ movie }) => {
             Date
           </Text>
           <Text fontSize="1rem" fontWeight="bold" color="white">
-            {date?.slice(1, 11)}
+            {date}
           </Text>
         </Flex>
         <Flex flexDir="column" margin="5px 0" fontSize="1.1rem">
@@ -78,7 +71,7 @@ const MovieSummary = ({ movie }) => {
           </Text>
         </Flex>
       </Flex>
-    </Flex>
+    </Grid>
   );
 };
 

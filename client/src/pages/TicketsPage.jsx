@@ -10,6 +10,7 @@ import {
   Button,
   Input,
   useToast,
+  Grid,
 } from "@chakra-ui/react";
 import PriceFooter from "../components/PriceFooter";
 import { HiPlus, HiMinus } from "react-icons/hi";
@@ -43,7 +44,6 @@ const TicketsPage = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(`/api/movie/${movieId}`);
-      console.log(data);
       setMovie(data);
     } catch (error) {
       toast({
@@ -74,166 +74,155 @@ const TicketsPage = () => {
         d="flex"
         flexDir="column"
         justifyContent="space-between"
+        pt={{ base: "160px", xl: "90px" }}
+        pb="80px"
       >
         <Flex
           flexDir="column"
-          justifyContent="flex-start"
+          justifyContent="center"
           alignItems="center"
           h="100%"
-          pt="90px"
         >
           {/* Bread Crumb For Progress */}
-          <ProcessBread isActive={2} />
+          <Box display={{ base: "none", sm: "block" }}>
+            <ProcessBread isActive={2} />
+          </Box>
           {/* Movie Summary Header */}
-          {/* <MovieSummary
+          <MovieSummary
             maxW="1000px"
-            movie={movie}
+            movie={movie[0]}
             date={date}
             time={time}
             location={theatreName}
-          /> */}
+          />
           {/* Ticket Bundle UI */}
-          <VStack
-            w="100%"
-            mt="20px"
-            mb="50px"
-            d="flex"
-            flexDir="column"
-            alignItems="center"
-            justifyContent="center"
+          <Grid
+            m="50px auto"
+            gridTemplateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }}
+            gap="30px"
           >
             <Flex
+              flexDir="column"
               justifyContent="space-between"
-              w="100%"
-              maxW="700px"
-              padding="20px 20px"
+              alignItems="center"
             >
-              <Flex
-                flexDir="column"
-                justifyContent="space-between"
-                alignItems="center"
+              <Text
+                fontSize="2rem"
+                textTransform="uppercase"
+                fontWeight="bold"
+                color="white"
               >
-                <Text
-                  fontSize="2rem"
-                  textTransform="uppercase"
-                  fontWeight="bold"
-                  color="white"
+                Standard
+              </Text>
+              <Text fontSize="1.05rem" color="gray.400">
+                CPX Ticket ${ticketData[0].price}
+              </Text>
+              <Flex mt="30px">
+                <Button
+                  onClick={() => {
+                    standardTicket >= 0 &&
+                      setStandardTicket(standardTicket + 1);
+                  }}
                 >
-                  Standard
-                </Text>
-                <Text fontSize="1.05rem" color="gray.400">
-                  CPX Ticket ${ticketData[0].price}
-                </Text>
-                <Flex mt="30px">
-                  <Button
-                    onClick={() => {
-                      standardTicket >= 0 &&
-                        setStandardTicket(standardTicket + 1);
-                    }}
-                  >
-                    <HiPlus />
-                  </Button>
-                  <Input
-                    w="80px"
-                    textAlign="center "
-                    m="0 10px"
-                    value={standardTicket}
-                    color="white"
-                  />
-                  <Button
-                    onClick={() => {
-                      standardTicket > 0 &&
-                        setStandardTicket(standardTicket - 1);
-                    }}
-                  >
-                    <HiMinus />
-                  </Button>
-                </Flex>
-              </Flex>
-              <Divider orientation="vertical" />
-              <Flex
-                flexDir="column"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Text
-                  fontSize="2rem"
-                  textTransform="uppercase"
-                  fontWeight="bold"
+                  <HiPlus />
+                </Button>
+                <Input
+                  w="80px"
+                  textAlign="center "
+                  m="0 10px"
+                  value={standardTicket}
                   color="white"
+                />
+                <Button
+                  onClick={() => {
+                    standardTicket > 0 && setStandardTicket(standardTicket - 1);
+                  }}
                 >
-                  Balcony
-                </Text>
-                <Text fontSize="1.05rem" color="gray.400">
-                  CPX Ticket ${ticketData[2].price}
-                </Text>
-                <Flex mt="30px">
-                  <Button
-                    onClick={() => {
-                      balconyTicket >= 0 && setBalconyTicket(balconyTicket + 1);
-                    }}
-                  >
-                    <HiPlus />
-                  </Button>
-                  <Input
-                    w="80px"
-                    textAlign="center "
-                    m="0 10px"
-                    value={balconyTicket}
-                    color="white"
-                  />
-                  <Button
-                    onClick={() => {
-                      balconyTicket > 0 && setBalconyTicket(balconyTicket - 1);
-                    }}
-                  >
-                    <HiMinus />
-                  </Button>
-                </Flex>
-              </Flex>
-              <Divider orientation="vertical" />
-              <Flex
-                flexDir="column"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Text
-                  fontSize="2rem"
-                  textTransform="uppercase"
-                  fontWeight="bold"
-                  color="white"
-                >
-                  D-Box
-                </Text>
-                <Text fontSize="1.05rem" color="gray.400">
-                  CPX Ticket ${ticketData[1].price}
-                </Text>
-                <Flex mt="30px">
-                  <Button
-                    onClick={() => {
-                      dBoxTicket >= 0 && setDBoxTicket(dBoxTicket + 1);
-                    }}
-                  >
-                    <HiPlus />
-                  </Button>
-                  <Input
-                    w="80px"
-                    textAlign="center "
-                    m="0 10px"
-                    value={dBoxTicket}
-                    color="white"
-                  />
-                  <Button
-                    onClick={() => {
-                      dBoxTicket > 0 && setDBoxTicket(dBoxTicket - 1);
-                    }}
-                  >
-                    <HiMinus />
-                  </Button>
-                </Flex>
+                  <HiMinus />
+                </Button>
               </Flex>
             </Flex>
-          </VStack>
+            <Flex
+              flexDir="column"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Text
+                fontSize="2rem"
+                textTransform="uppercase"
+                fontWeight="bold"
+                color="white"
+              >
+                Balcony
+              </Text>
+              <Text fontSize="1.05rem" color="gray.400">
+                CPX Ticket ${ticketData[2].price}
+              </Text>
+              <Flex mt="30px">
+                <Button
+                  onClick={() => {
+                    balconyTicket >= 0 && setBalconyTicket(balconyTicket + 1);
+                  }}
+                >
+                  <HiPlus />
+                </Button>
+                <Input
+                  w="80px"
+                  textAlign="center "
+                  m="0 10px"
+                  value={balconyTicket}
+                  color="white"
+                />
+                <Button
+                  onClick={() => {
+                    balconyTicket > 0 && setBalconyTicket(balconyTicket - 1);
+                  }}
+                >
+                  <HiMinus />
+                </Button>
+              </Flex>
+            </Flex>
+            <Flex
+              flexDir="column"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Text
+                fontSize="2rem"
+                textTransform="uppercase"
+                fontWeight="bold"
+                color="white"
+              >
+                D-Box
+              </Text>
+              <Text fontSize="1.05rem" color="gray.400">
+                CPX Ticket ${ticketData[1].price}
+              </Text>
+              <Flex mt="30px">
+                <Button
+                  onClick={() => {
+                    dBoxTicket >= 0 && setDBoxTicket(dBoxTicket + 1);
+                  }}
+                >
+                  <HiPlus />
+                </Button>
+                <Input
+                  w="80px"
+                  textAlign="center "
+                  m="0 10px"
+                  value={dBoxTicket}
+                  color="white"
+                />
+                <Button
+                  onClick={() => {
+                    dBoxTicket > 0 && setDBoxTicket(dBoxTicket - 1);
+                  }}
+                >
+                  <HiMinus />
+                </Button>
+              </Flex>
+            </Flex>
+          </Grid>
         </Flex>
         <PriceFooter total={22.99} to="/seats" />
       </Box>

@@ -96,9 +96,9 @@ const SeatPreview = () => {
           key={`${type}  ${index}`}
           cursor="default"
           variant="unstyled"
-          size="16px"
+          size={{ base: "10px", md: "16px" }}
         >
-          <BsFillSquareFill color="#00171f" />
+          <BsFillSquareFill color="#0a0b0d" />
         </Button>
       );
     else if (bin === 1)
@@ -112,7 +112,7 @@ const SeatPreview = () => {
           <Button
             variant="unstyled"
             outline="none"
-            size="5px"
+            size={{ base: "10px", md: "16px" }}
             onClick={() => handleSelect(type, index, bin)}
           >
             <BsFillSquareFill
@@ -136,7 +136,7 @@ const SeatPreview = () => {
         >
           <Button
             variant="unstyled"
-            size="5px"
+            size={{ base: "10px", md: "16px" }}
             onClick={() => handleSelect(type, index, bin)}
           >
             <BsFillSquareFill
@@ -162,9 +162,8 @@ const SeatPreview = () => {
       flexDir="column"
     >
       <Flex
-        justifyContent="flex-start"
+        justifyContent="center"
         width="100%"
-        maxW="600px"
         bg="blackAlpha.100"
         padding="10px 20px"
         borderRadius="10px"

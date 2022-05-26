@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Grid, Text, useToast } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { UserState } from "../Context/Store";
@@ -44,19 +44,31 @@ const PriceFooter = ({ to }) => {
         w="100%"
         position="fixed"
         bottom="0"
-        p="10px 100px"
-        bg="rgba(255, 255, 255,0.1)"
+        p={{ base: "10px", md: "10px 5vw" }}
+        backdropFilter="blur(80px)"
         shadow="lg"
         boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
       >
-        <Flex alignItems="center" justifyContent="flex-end">
-          <Text color="gray.400" mr="50px">
+        <Grid
+          alignItems="center"
+          gridTemplateColumns={{ base: "1fr", md: "2fr 300px" }}
+          justifyContent={{ base: "center", md: "flex-end" }}
+          gap="20px"
+        >
+          <Text color="gray.400" textAlign={{ base: "center", md: "end" }}>
             SubTotal: ${handleTotal()}
           </Text>
-          <Button colorScheme="gray" padding="0 100px" onClick={handleClick}>
+          <Button
+            bg="#feca04"
+            color="black"
+            colorScheme="yellow"
+            padding="0 100px"
+            onClick={handleClick}
+            width={{ base: "100%", lg: "auto" }}
+          >
             PROCEED
           </Button>
-        </Flex>
+        </Grid>
       </Box>
     </>
   );
