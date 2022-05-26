@@ -114,9 +114,9 @@ const deleteMovie = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc		update the details of the movie
+// @desc		Get all the movies
 // @route		/api/movie/
-// @access	    Admin
+// @access	  Public
 const getMovies = asyncHandler(async (req, res) => {
   try {
     const movieExisted = await Movie.find({});
@@ -124,8 +124,29 @@ const getMovies = asyncHandler(async (req, res) => {
     res.status(200).json(movieExisted);
   } catch (err) {
     res.status(500);
-    throw new Error(serverError("At edit movie controller", err));
+    throw new Error(serverError("At get movie", err));
   }
 });
 
-module.exports = { addMovie, editMovie, deleteMovie, getMovies };
+// @desc		Get movie by ID
+// @route		/api/movie/:movieId
+// @access	  Public
+const getMovieDetails = asyncHandler(async (req, res) => {
+  const { movieId } = req.params;
+  try {
+    const movieExisted = await Movie.find({ _id: movieId });
+
+    res.status(200).json(movieExisted);
+  } catch (err) {
+    res.status(500);
+    throw new Error(serverError("At get movie by id", err));
+  }
+});
+
+module.exports = {
+  addMovie,
+  editMovie,
+  deleteMovie,
+  getMovies,
+  getMovieDetails,
+};

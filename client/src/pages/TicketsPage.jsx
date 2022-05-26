@@ -1,6 +1,6 @@
 import ProcessBread from "../components/ProcessBread";
 import MovieSummary from "../components/MovieSummary";
-import { data } from "../dummy data/Data.js";
+import axios from "axios";
 import {
   Divider,
   Flex,
@@ -16,13 +16,12 @@ import { HiPlus, HiMinus } from "react-icons/hi";
 import { UserState } from "../Context/Store";
 import { ticketData } from "../dummy data/TicketData";
 import LoginAction from "../components/LoginAction";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const TicketsPage = () => {
   const Navigate = useNavigate();
   const toast = useToast();
-  const movie = data[0];
   const {
     user,
     standardTicket,
@@ -34,15 +33,40 @@ const TicketsPage = () => {
     date,
     time,
     theatreName,
+    movieId,
   } = UserState();
+
+  const [loading, setLoading] = useState(false);
+  const [movie, setMovie] = useState([]);
+
+  async function getMovieById() {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(`/api/movie/${movieId}`);
+      console.log(data);
+      setMovie(data);
+    } catch (error) {
+      toast({
+        title: `Something went wrong ${error}`,
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+        position: "top-right",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
-    if (!movie || !date || !time) {
+    if (!date || !time || !movieId) {
       Navigate("/movies");
     }
+    getMovieById();
   }, []);
   return (
     <>
-      {!user && <LoginAction />}
+      {/* {!user && <LoginAction />} */}
 
       <Box
         h=""
@@ -61,13 +85,13 @@ const TicketsPage = () => {
           {/* Bread Crumb For Progress */}
           <ProcessBread isActive={2} />
           {/* Movie Summary Header */}
-          <MovieSummary
+          {/* <MovieSummary
             maxW="1000px"
             movie={movie}
             date={date}
             time={time}
             location={theatreName}
-          />
+          /> */}
           {/* Ticket Bundle UI */}
           <VStack
             w="100%"

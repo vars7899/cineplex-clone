@@ -13,7 +13,7 @@ import { UserState } from "../Context/Store";
 import TimeAndDate from "./TimeAndDate";
 
 const MovieBrowser = ({ movie }) => {
-  const { setMovieName } = UserState();
+  const { setMovieName, setMovieId } = UserState();
   return (
     <Box
       width="100%"
@@ -75,6 +75,7 @@ const MovieBrowser = ({ movie }) => {
               color="black"
               onClick={() => {
                 setMovieName(movie?.name);
+                setMovieId(movie?._id);
               }}
             >
               Get Reservation
