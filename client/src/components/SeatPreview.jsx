@@ -9,6 +9,7 @@ import {
   Divider,
   Tooltip,
   useToast,
+  Grid,
 } from "@chakra-ui/react";
 import { seatAlignment } from "../dummy data/SeatAlignment";
 import { BsFillSquareFill } from "react-icons/bs";
@@ -96,7 +97,8 @@ const SeatPreview = () => {
           key={`${type}  ${index}`}
           cursor="default"
           variant="unstyled"
-          size={{ base: "10px", md: "16px" }}
+          size={{ base: "5px", md: "16px" }}
+          fontSize={{ base: "8px", sm: "10px", md: "16px" }}
         >
           <BsFillSquareFill color="#0a0b0d" />
         </Button>
@@ -112,7 +114,8 @@ const SeatPreview = () => {
           <Button
             variant="unstyled"
             outline="none"
-            size={{ base: "10px", md: "16px" }}
+            size={{ base: "5px", md: "16px" }}
+            fontSize={{ base: "8px", sm: "10px", md: "16px" }}
             onClick={() => handleSelect(type, index, bin)}
           >
             <BsFillSquareFill
@@ -136,7 +139,8 @@ const SeatPreview = () => {
         >
           <Button
             variant="unstyled"
-            size={{ base: "10px", md: "16px" }}
+            size={{ base: "5px", md: "16px" }}
+            fontSize={{ base: "8px", sm: "10px", md: "16px" }}
             onClick={() => handleSelect(type, index, bin)}
           >
             <BsFillSquareFill
@@ -154,7 +158,7 @@ const SeatPreview = () => {
   return (
     <Flex
       mt="40px"
-      mb="100px"
+      mb={{ base: "200px", lg: "100px" }}
       w="100%"
       maxW="100vw"
       alignItems="center"
@@ -176,7 +180,7 @@ const SeatPreview = () => {
             No seat selected
           </Text>
         )}
-        <Flex wrap="wrap" maxW="360px">
+        <Flex wrap="wrap" maxW="360px" padding="0px 20px">
           {selectedSeats.map((item, index) => (
             <Text fontSize="1.25rem" key={index} color="gray.400">
               {item}, 
@@ -190,6 +194,7 @@ const SeatPreview = () => {
         justifyContent="center"
         maxW="700px"
         mt="40px"
+        overflow="hidden"
       >
         <Box
           d="flex"
@@ -197,68 +202,71 @@ const SeatPreview = () => {
           justifyContent="center"
           flexDir="column"
         >
-          <div className="screenLine"></div>
+          <Box
+            width={{ base: "300px", sm: "450px", md: "600px" }}
+            className="screenLine"
+          ></Box>
           <Text color="gray.400">SCREEN</Text>
         </Box>
         <Box mt="60px">
           <VStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.AA.map((seat, index) =>
                 seatType(seat, index, "AA")
               )}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.BB.map((seat, index) =>
                 seatType(seat, index, "BB")
               )}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.CC.map((seat, index) =>
                 seatType(seat, index, "CC")
               )}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.DD.map((seat, index) =>
                 seatType(seat, index, "DD")
               )}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.X.map((seat, index) => seatType(seat, index, "X"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.X.map((seat, index) => seatType(seat, index, "X"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.A.map((seat, index) => seatType(seat, index, "A"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.B.map((seat, index) => seatType(seat, index, "B"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.C.map((seat, index) => seatType(seat, index, "C"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.D.map((seat, index) => seatType(seat, index, "D"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.E.map((seat, index) => seatType(seat, index, "E"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.F.map((seat, index) => seatType(seat, index, "F"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.G.map((seat, index) => seatType(seat, index, "G"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.H.map((seat, index) => seatType(seat, index, "H"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.I.map((seat, index) => seatType(seat, index, "I"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.J.map((seat, index) => seatType(seat, index, "J"))}
             </HStack>
-            <HStack>
+            <HStack spacing={{ base: "6px", sm: "8px", md: "10px" }}>
               {seatAlignment.K.map((seat, index) => seatType(seat, index, "K"))}
             </HStack>
           </VStack>
@@ -269,11 +277,18 @@ const SeatPreview = () => {
           </Button>
         </Box>
         <Divider />
-        <Flex flexDir="column" alignItems="flex-start" w="100%" color="white">
-          <Text fontSize="sm" mb="30px" mt="10px">
+        <Grid w="100%" color="white">
+          <Text fontSize="sm" mb="30px" mt="10px" textAlign="center">
             SEAT INFORMATION
           </Text>
-          <Flex justifyContent="space-between" w="100%">
+          <Grid
+            gridTemplateColumns={{
+              base: "1fr 1fr",
+              lg: "repeat(4,1fr)",
+            }}
+            gap="20px"
+            w="100%"
+          >
             <Box d="flex" alignItems="center" flexDir="column">
               <BsFillSquareFill color="#a0aec0" className="seat" />
               <Text mt="5px">Standard</Text>
@@ -290,8 +305,8 @@ const SeatPreview = () => {
               <BsFillSquareFill color="green" className="seat" />
               <Text mt="5px">Selected</Text>
             </Box>
-          </Flex>
-        </Flex>
+          </Grid>
+        </Grid>
       </Flex>
     </Flex>
   );

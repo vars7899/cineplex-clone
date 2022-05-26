@@ -48,7 +48,7 @@ const TicketPage = () => {
       justifyContent="flex-start"
       alignItems="center"
       h="100%"
-      pt={{ base: "140px", xl: "90px" }}
+      pt={{ base: "160px", xl: "90px" }}
     >
       <Box display={{ base: "none", sm: "block" }}>
         <ProcessBread isActive={3} />
