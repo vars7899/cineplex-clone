@@ -69,9 +69,8 @@ const TheatreList = () => {
     <Box mr="-5vw" ml="-5vw" borderTop="1px solid gray" maxW="100vw">
       {loadingTheatreData && <FetchingLoader />}
       <Grid
-        templateColumns={{ base: "1fr auto", lg: "minmax(400px, 600px) 3fr" }}
+        templateColumns={{ base: "1fr auto", lg: "minmax(400px,500px) 3fr" }}
         width="100vw"
-        gap="10px"
       >
         <VStack
           minWidth="350px"

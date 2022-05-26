@@ -1,4 +1,4 @@
-import { Box, Button, Flex, IconButton, Image } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Image } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../animation/logo1.png";

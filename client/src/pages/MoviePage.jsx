@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Box } from "@chakra-ui/react";
 import TheatreMovie from "../components/TheatreMovie";
 import ProcessBread from "../components/ProcessBread";
 import DetailFooter from "../components/DetailFooter";
@@ -19,9 +19,11 @@ const MoviePage = () => {
       justifyContent="flex-start"
       alignItems="center"
       h="100%"
-      pt="90px"
+      pt={{ base: "140px", xl: "90px" }}
     >
-      <ProcessBread isActive={1} />
+      <Box display={{ base: "none", sm: "block" }}>
+        <ProcessBread isActive={1} />
+      </Box>
       <TheatreMovie />
       <DetailFooter
         time={time}

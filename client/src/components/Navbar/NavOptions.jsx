@@ -8,7 +8,6 @@ import { UserState } from "../../Context/Store";
 
 const NavOptions = ({ d1, d2 }) => {
   const { user } = UserState();
-  console.log(user);
   const Navigate = useNavigate();
   return (
     <HStack

@@ -34,7 +34,7 @@ const ProcessBread = ({ isActive }) => {
             borderRadius={{ base: "2px", md: "10px" }}
             bg={isActive === 0 ? "rgba(255, 255, 255,0.1)" : ""}
             color={
-              isActive === 0 ? "#fff" : isActive > 0 ? "#00A8E8" : "gray.400"
+              isActive === 0 ? "#fff" : isActive > 0 ? "#feca04" : "gray.400"
             }
           >
             THEATRE
@@ -49,7 +49,7 @@ const ProcessBread = ({ isActive }) => {
             borderRadius="10px"
             bg={isActive === 1 ? "rgba(255, 255, 255,0.1)" : ""}
             color={
-              isActive === 1 ? "#fff" : isActive > 1 ? "#00A8E8" : "gray.400"
+              isActive === 1 ? "#fff" : isActive > 1 ? "#feca04" : "gray.400"
             }
           >
             MOVIE
@@ -64,7 +64,7 @@ const ProcessBread = ({ isActive }) => {
             borderRadius="10px"
             bg={isActive === 2 ? "rgba(255, 255, 255,0.1)" : ""}
             color={
-              isActive === 2 ? "#fff" : isActive > 2 ? "#00A8E8" : "gray.400"
+              isActive === 2 ? "#fff" : isActive > 2 ? "#feca04" : "gray.400"
             }
           >
             TICKETS
@@ -79,7 +79,7 @@ const ProcessBread = ({ isActive }) => {
             borderRadius="10px"
             bg={isActive === 3 ? "rgba(255, 255, 255,0.1)" : ""}
             color={
-              isActive === 3 ? "#fff" : isActive > 3 ? "#00A8E8" : "gray.400"
+              isActive === 3 ? "#fff" : isActive > 3 ? "#feca04" : "gray.400"
             }
           >
             SEATS
@@ -95,7 +95,7 @@ const ProcessBread = ({ isActive }) => {
             borderRadius="10px"
             bg={isActive === 4 ? "rgba(255, 255, 255,0.1)" : ""}
             color={
-              isActive === 4 ? "#fff" : isActive > 4 ? "#00A8E8" : "gray.400"
+              isActive === 4 ? "#fff" : isActive > 4 ? "#feca04" : "gray.400"
             }
           >
             PAYMENT

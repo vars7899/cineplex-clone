@@ -1,29 +1,29 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   FormControl,
   Image,
   Grid,
   Text,
-  GridItem,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { UserState } from "../Context/Store";
 
-const MovieSummary = ({ movie, location, time, showSelected = true }) => {
-  const { setDate, setTime, date, setMovieName } = UserState();
+const MovieSummary = ({ movie, showSelected = true }) => {
+  const { setDate, setTime, date, setMovieName, location, time } = UserState();
   const [startDate, setStartDate] = useState(new Date());
+  const [readMore, setReadMore] = useState(false);
+  setDate(JSON.stringify(startDate));
   return (
     <Flex alignItems="flex-start" justify="center" margin="30px 0px">
       <Box borderRadius="20px" overflow="hidden" mr="40px">
         <Image
-          alt={movie.movie_name}
+          alt={movie.name}
           objectFit="contain"
-          src={movie.movie_image}
+          src={movie.image}
           width="230px"
         />
       </Box>
@@ -34,13 +34,26 @@ const MovieSummary = ({ movie, location, time, showSelected = true }) => {
         maxW="700px"
       >
         <Text
-          color="gray.400"
-          textTransform="capitalize"
+          color="white"
+          textTransform="uppercase"
           fontSize={{ base: "2.5rem" }}
         >
-          {movie.movie_name}
+          {movie.name}
         </Text>
-        <Text color="gray.500">{movie.desc}</Text>
+        <Box>
+          <Text color="gray.500">
+            {!readMore ? movie?.desc.slice(0, 250) : movie?.desc}
+          </Text>
+          {movie?.desc.length > 250 && (
+            <Text
+              color="white"
+              style={{ fontWeight: "bolder", cursor: "pointer" }}
+              onClick={() => setReadMore((readMore) => !readMore)}
+            >
+              {!readMore ? " Read More..." : " Read Less..."}
+            </Text>
+          )}
+        </Box>
         {showSelected ? (
           <>
             <Flex flexDir="column" margin="20px 0 5px 0" fontSize="1.1rem">
@@ -102,7 +115,7 @@ const MovieSummary = ({ movie, location, time, showSelected = true }) => {
                 variant="outline"
                 onClick={() => {
                   setTime("11:00 AM");
-                  setMovieName(movie.movie_name);
+                  setMovieName(movie.name);
                 }}
               >
                 11:00 AM
@@ -112,7 +125,7 @@ const MovieSummary = ({ movie, location, time, showSelected = true }) => {
                 variant="outline"
                 onClick={() => {
                   setTime("01:00 PM");
-                  setMovieName(movie.movie_name);
+                  setMovieName(movie.name);
                 }}
               >
                 01:00 PM
@@ -122,7 +135,7 @@ const MovieSummary = ({ movie, location, time, showSelected = true }) => {
                 variant="outline"
                 onClick={() => {
                   setTime("04:00 PM");
-                  setMovieName(movie.movie_name);
+                  setMovieName(movie.name);
                 }}
               >
                 04:00 PM
@@ -132,7 +145,7 @@ const MovieSummary = ({ movie, location, time, showSelected = true }) => {
                 variant="outline"
                 onClick={() => {
                   setTime("07:00 PM");
-                  setMovieName(movie.movie_name);
+                  setMovieName(movie.name);
                 }}
               >
                 07:00 PM
@@ -142,7 +155,7 @@ const MovieSummary = ({ movie, location, time, showSelected = true }) => {
                 variant="outline"
                 onClick={() => {
                   setTime("10:00 PM");
-                  setMovieName(movie.movie_name);
+                  setMovieName(movie.name);
                 }}
               >
                 10:00 PM

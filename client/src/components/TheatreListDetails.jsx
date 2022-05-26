@@ -49,7 +49,6 @@ const TheatreListDetails = ({ theatre }) => {
           bg="#feca04"
           color="#0a0b0d"
           colorScheme="yellow"
-          alignSelf="center"
           width={{ base: "100%", md: "auto" }}
         >
           Select
