@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { serverError } = require("../error/serverError");
 const Ticket = require("../models/Ticket");
 const stripe = require("stripe")();
+const nodemailer = require("nodemailer");
 
 // @desc		Create new ticket
 // @route		/api/ticket
@@ -95,7 +96,29 @@ const createNewTicket = asyncHandler(async (req, res) => {
         { new: true }
       );
       console.log(ticket);
-      // console.log(event.data.object.payment_intent);
+      // Send Ticket to Email
+      var transporter = nodemailer.createTransport({
+        service: "hotmail",
+        auth: {
+          user: "ticket7899@outlook.com",
+          pass: "E:j5hYL5UkJ9!vx",
+        },
+      });
+
+      var mailOptions = {
+        from: "ticket7899@outlook.com",
+        to: " jbenjaminbj4@gmail.com",
+        subject: "Cineplex Ticket",
+        text: "That was easy!",
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
     }
   } catch (err) {
     console.log(err);
@@ -111,3 +134,5 @@ const createNewTicket = asyncHandler(async (req, res) => {
 });
 
 module.exports = { createNewTicket, generatePaymentUrl };
+
+// E:j5hYL5UkJ9!vx
