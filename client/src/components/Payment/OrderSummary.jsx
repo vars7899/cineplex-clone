@@ -1,4 +1,12 @@
-import { Box, Divider, Flex, Text, VStack, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  Flex,
+  Text,
+  VStack,
+  useToast,
+  Button,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { UserState } from "../../Context/Store";
 import { ticketData } from "../../dummy data/TicketData";
@@ -12,7 +20,6 @@ const OrderSummary = () => {
     standardTicket,
     dBoxTicket,
     balconyTicket,
-    theatreName,
     total,
     setTotal,
     taxPrice,
@@ -22,6 +29,11 @@ const OrderSummary = () => {
     subTotal,
     setSubTotal,
     user,
+    selectedSeats,
+    movieId,
+    theatreId,
+    time,
+    date,
   } = UserState();
 
   // ! function to calculate all the price
@@ -46,12 +58,57 @@ const OrderSummary = () => {
     return priceOfOne * numberOfTicket;
   }
 
+  async function handleClick(token) {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const response = await axios.post(
+        "/api/ticket",
+        {
+          seats: selectedSeats,
+          movieId,
+          theatreId,
+          time,
+          date,
+          tax: taxPrice,
+          subTotal,
+          serviceCharge,
+          total,
+          token,
+        },
+        config
+      );
+      if (response.status === 200) {
+        // toast({
+        //   title: `Ticket was sent to email`,
+        //   status: "success",
+        //   isClosable: true,
+        //   duration: 3000,
+        //   position: "top-right",
+        // });
+        window.open(response.data.url);
+      }
+    } catch (err) {
+      toast({
+        title: `${err}`,
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+        position: "top-right",
+      });
+    }
+  }
+
   useEffect(() => {
     if (!user) {
       Navigate("/seats");
     }
     calcAllPrice();
-  }, []);
+  });
 
   return (
     <Box
@@ -116,6 +173,16 @@ const OrderSummary = () => {
           <Text color="gray.400">Total</Text>
           <Text color="white">${total}</Text>
         </Flex>
+        <Button
+          bg="#feca04"
+          color="black"
+          colorScheme="yellow"
+          padding="0 100px"
+          onClick={() => handleClick()}
+          isFullWidth
+        >
+          Pay Now
+        </Button>
       </VStack>
     </Box>
   );
