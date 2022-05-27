@@ -1,35 +1,35 @@
-import React, { useState } from "react";
-import MovieSummary from "../components/MovieSummary";
 import ProcessBread from "../components/ProcessBread";
-import PriceFooter from "../components/PriceFooter";
-import { Box, Divider, Flex, Grid } from "@chakra-ui/react";
+import { Box, Flex, Grid } from "@chakra-ui/react";
 import OrderSummary from "../components/Payment/OrderSummary";
-import OrderDetailForm from "../components/Payment/OrderDetailForm";
+import OrderDetails from "../components/Payment/OrderDetails";
 
 const PaymentPage = () => {
   return (
     <Flex
       flexDir="column"
-      justifyContent="flex-start"
+      justifyContent="center"
       alignItems="center"
       h="100%"
-      pt="90px"
+      pt={{ base: "160px", xl: "90px" }}
+      pb={{ base: "160px" }}
+      m="0 5vw"
     >
-      <ProcessBread isActive={4} />
-      <Grid
-        bg="rgba(255, 255, 255, 0.1)"
-        mt="10px"
-        minW="1100"
-        gridTemplateColumns="3fr 2fr"
-        gap="60px"
-        p="50px 40px"
-        borderRadius="20px"
-        minH="575px"
-      >
-        <OrderDetailForm />
-        <OrderSummary />
-      </Grid>
-      <PriceFooter total={22.99} />
+      <Box display={{ base: "none", sm: "block" }}>
+        <ProcessBread isActive={4} />
+      </Box>
+      <Flex alignItems="center">
+        <Grid
+          width="100%"
+          gridTemplateColumns={{ base: "1fr", "2xl": "1fr 0.5fr" }}
+        >
+          <Box justifySelf="end">
+            <OrderDetails />
+          </Box>
+          <Box justifySelf={{ base: "stretch" }}>
+            <OrderSummary />
+          </Box>
+        </Grid>
+      </Flex>
     </Flex>
   );
 };

@@ -4,6 +4,9 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+body {
+  background-color: #0a0b0d;
+}
 .app {
   min-height: 100vh;
   height: 100%;

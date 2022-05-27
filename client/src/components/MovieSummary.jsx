@@ -3,7 +3,6 @@ import { useState } from "react";
 
 const MovieSummary = ({ movie, date, location, time }) => {
   const [readMore, setReadMore] = useState(false);
-  console.log(movie);
   return (
     <Grid
       gridTemplateColumns={{
