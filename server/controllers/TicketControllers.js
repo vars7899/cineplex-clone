@@ -91,8 +91,8 @@ const createNewTicket = asyncHandler(async (req, res) => {
       var transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
-          user: "ticket7899@outlook.com",
-          pass: "E:j5hYL5UkJ9!vx",
+          user: process.env.NODEMAILER_SENDER,
+          pass: process.env.NODEMAILER_PASSWORD,
         },
       });
       const handlebarOptions = {
@@ -105,10 +105,9 @@ const createNewTicket = asyncHandler(async (req, res) => {
         extName: ".handlebars",
       };
       transporter.use("compile", hbs(handlebarOptions));
-      console.log(event);
       var mailOptions = {
-        from: "ticket7899@outlook.com",
-        to: " jbenjaminbj4@gmail.com",
+        from: "ticketbook_7899@outlook.com",
+        to: "vars7899@gmail.com",
         subject: "Cineplex Ticket",
         template: "ticket",
         context: {
