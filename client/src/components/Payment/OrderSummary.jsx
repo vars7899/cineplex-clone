@@ -7,7 +7,7 @@ import {
   useToast,
   Button,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { UserState } from "../../Context/Store";
 import { ticketData } from "../../dummy data/TicketData";
 import { useNavigate } from "react-router-dom";
@@ -58,7 +58,7 @@ const OrderSummary = () => {
     return priceOfOne * numberOfTicket;
   }
 
-  async function handleClick(token) {
+  async function handleClick() {
     try {
       const config = {
         headers: {
@@ -78,7 +78,7 @@ const OrderSummary = () => {
           subTotal,
           serviceCharge,
           total,
-          token,
+          user,
         },
         config
       );

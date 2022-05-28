@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 const TheatreListDetails = ({ theatre }) => {
   const toast = useToast();
   const Navigate = useNavigate();
-  const { setLocation, setTheatreName } = UserState();
+  const { setLocation, setTheatreName, setTheatreId } = UserState();
   function handleClick(_id, name) {
     setLocation(_id);
+    setTheatreId(_id);
     console.log(name);
     setTheatreName(name);
     toast({
